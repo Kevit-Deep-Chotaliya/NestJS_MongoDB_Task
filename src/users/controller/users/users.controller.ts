@@ -1,13 +1,15 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe, Get, Param, HttpException, Patch, Delete } from '@nestjs/common';
+import { Controller, Post, Body, UsePipes, ValidationPipe, Get, Param, HttpException, Patch, Delete, UseInterceptors } from '@nestjs/common';
 import { UserService } from '../../service/user/user.service.js';
 import { CreateUserDto } from '../../dto/CreateUser.dto.js';
 import mongoose from 'mongoose';
 import { UpdateUserDto } from '../../dto/UpdateUser.dto.js';
+import { LoggerMiddleware } from '../../../logger/logger.middleware.js';
 
 @Controller('users')
+@UseInterceptors(LoggerMiddleware)
 export class UsersController {
 
-    constructor(private userService: UserService) { }
+    constructor(private readonly userService: UserService) { }
 
     @Post()
     @UsePipes(new ValidationPipe())
@@ -61,7 +63,7 @@ export class UsersController {
             throw new HttpException('Invalid Id', 404);
         }
         const deletedUser = await this.userService.deleteUser(id);
-        if(!deletedUser) {
+        if (!deletedUser) {
             throw new HttpException('User Not Found', 404);
         }
         return;
