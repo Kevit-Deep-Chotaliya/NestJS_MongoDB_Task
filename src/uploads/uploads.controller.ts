@@ -1,4 +1,4 @@
-import { Controller, UseInterceptors, Post, BadRequestException, UploadedFile, ParseFilePipe, MaxFileSizeValidator, UploadedFiles } from '@nestjs/common';
+import { Controller, UseInterceptors, Post, BadRequestException, UploadedFile, ParseFilePipe, MaxFileSizeValidator, UploadedFiles, UnauthorizedException } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { randomUUID } from 'crypto';
 import { diskStorage } from 'multer';
@@ -37,6 +37,7 @@ export class UploadsController {
     async uploadMultipleFiles(
         @UploadedFiles() files: Express.Multer.File[],
     ) {
+
         if (!files || files.length === 0) {
             throw new BadRequestException("Please upload at least one file")
         }
