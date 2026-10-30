@@ -22,7 +22,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const redisUrl = configService.get<string>('REDIS_URL') || 'redis://localhost:6379';
+        const redisUrl = configService.get<string>('REDIS_URL');
         return {
           stores: [new KeyvRedis(redisUrl)],
           ttl: 60000
