@@ -25,7 +25,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         const redisUrl = configService.get<string>('REDIS_URL');
         return {
           stores: [new KeyvRedis(redisUrl)],
-          ttl: 60000
+          ttl: 0
         }
       }
     })
