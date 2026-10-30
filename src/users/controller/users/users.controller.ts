@@ -4,9 +4,10 @@ import { CreateUserDto } from '../../dto/CreateUser.dto.js';
 import mongoose from 'mongoose';
 import { UpdateUserDto } from '../../dto/UpdateUser.dto.js';
 import { LoggerMiddleware } from '../../../logger/logger.middleware.js';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('users')
-@UseInterceptors(LoggerMiddleware)
+@UseInterceptors(LoggerMiddleware, CacheInterceptor)
 export class UsersController {
 
     constructor(private readonly userService: UserService) { }
